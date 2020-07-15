@@ -1,56 +1,56 @@
-# sola cli
+# Amazon Personalize ML Ops V2
 
-## About ##
+## About
 This package provides you with an easy, fast and automatic way to provision Amazon Personalize solutions. It demands minimal setup interactions with it's resources. Specifics such as choosing algorithms and hyperparameters are __TBD__. 
 
-Currently, this solution will provision your resources using Amazon's Personalize AutoML to tune-in hyperparameters and __HRNN__ as it's algorithm.
-## Install ##
+![alt text](/img/architecture.png "Architecture")
+
+## Install 
 First, you will need to instal the _sam cli_, you can visit [this link](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) to get information on how to install it on your OS.
-To install the package and it's dependencies, run the following command, inside the experso folder:
 
-`$ pip install --editable .`
+## Deployment and Usage
 
-## Usage ##
-To use this package you will need _at least_ the following files:
-- __{MySchema}.json__: Your Interactions schema definition.
-- __{MyDataset}.csv__: Your Interactions schema definition.
-- __{Datasets}.json__: Your dataset schemas definition file, __following the structure__:
-```json
-{
-    "datasets":[
-        {
-            "name": "MyDataset",
-            "type": "[Items,Interactions,Users]",
-            "schemafile": "path/to/MySchema.json",
-            "csvfile": "path/to/MyDataset.csv"
-        }, ...
-    ]
-}
+With the SAM CLI installed, run the following command inside the repository folder to deploy the pipeline:
+
+`sam build --template cloudformation.yaml && sam deploy --guided`
+
+The pipeline will query your for an email and a default name for the parameter file.
+
+Once deployed, the solution will create the InputBucket. Use it to upload your datasets using the following structure:
+
+```
+Users/              # Users dataset(s) folder
+Items/              # Items dataset(s) folder
+Interactions/       # Interaction dataset(s) folder
 ```
 
-Provided the files, to provision your resources on your AWS account, please run:
+After your datasets are submitted, upload the parameters file in the root directory. This step will start the step functions workflow.
 
-`$ sola deploy --name MySolution --datasetschema MySchema.json --outputfile {MyParams.json}`
+## Configuration
 
-This command will provision the following resources on your account:
-- __SNS Topic__
-- __S3 Bucket__ (Only if the option --bucket is not used)
-- __Lambda functions__
-- __Step Functions__
-- __IAM Roles__
+To use this tool you will need to propperly setup a parameter file. The parameter file contains all the necessary information to create the resources on Amazon Personalize. It fetches the parameters using the boto3 personalize client.
 
-And provide you with a template file. To provision your Personalize solution, run the command:
+The file should include the following sections, all mandatory:
+```
+    datasetGroup
+    datasets
+    solution
+    campaign
+```
+<details>
+<summary>See a sample of the parameter file</summary> 
+<p> json { "datasetGroup": { "name":"DatasetGroup" }, "datasets": { "Interactions": { "name":"InteractionsDataset", "schema": { "type": "record", "name": "Interactions", "namespace": "com.amazonaws.personalize.schema", "fields": [ { "name": "USER_ID", "type": "string" }, { "name": "ITEM_ID", "type": "string" }, { "name": "TIMESTAMP", "type": "long" } ], "version": "1.0" } }, "Users": { "name": "UsersDataset", "schema": { "type": "record", "name": "Users", "namespace": "com.amazonaws.personalize.schema", "fields": [ { "name": "USER_ID", "type": "string" }, { "name": "GENDER", "type": "string", "categorical": true }, { "name": "AGE", "type": "int" } ], "version": "1.0" } } }, "solution": { "name": "Solution", "performAutoML": true }, "campaign": { "name": "Campaign", "minProvisionedTPS": 1 } } </p> </details>
 
-`$ sola start --parameters {MyParams.json}`
 
-You can also provide schemas and datasets on metadata for the USER and ITEMS entities.
-To get detailed information on how to create your dataset schemas and datasets, please visit the [Personalize documentation](https://docs.aws.amazon.com/personalize/latest/dg/how-it-works-dataset-schema.html).
+## Example
 
+In order to test the deployment please run the following command inside the repository folder:
 
-### Examples
-For examples, please visit the `/example` folder.
+`aws s3 sync ./example/data s3://{YOURBUCKETNAME}`
 
-## Help
-__sola__ provides different options for its commands. To get a full list of provided commands and options run:
+`aws s3 cp ./example/params.json s3://{YOURBUCKETNAME}`
 
-`$ sola COMMAND --help`
+This will start the execution of the Step Functions workflow. To follow the execution navigate to the Step Functions section of the AWS Console and click on the DeployStateMachine-xxx state machine.
+
+**You will need to specify the correct S3 bucket name created before. The state machine starts when the parameter file is submitted to the S3 bucket.**
+
