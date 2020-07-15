@@ -1,0 +1,16 @@
+{
+    "datasets":[
+        {
+            "name": "itemdataset",
+            "type": "Items",
+            "schemafile": "/example/items.json",
+            "csvfile": "/example/hrnn-items.csv"
+        },
+        {
+            "name": "interactionsDataset",
+            "type": "Interactions",
+            "schemafile": "/example/interactions.json",
+            "csvfile": "/example/hrnn.csv"
+        }
+    ]
+}

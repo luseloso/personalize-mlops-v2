@@ -1,0 +1,70 @@
+{
+    "status": false,
+    "parameters": {
+        "roleArn": "arn:aws:iam::868998664771:role/personalize-job",
+        "name": "test_steps2",
+        "bucketName": "personalize-ypf"
+    },
+    "datasetGroup": {
+        "datasetGroupArn": "arn:aws:personalize:us-east-1:868998664771:dataset-group/test_steps2",
+        "ResponseMetadata": {
+            "RequestId": "c3d8198d-be78-40e6-9d97-2c4903e6a3c1",
+            "HTTPStatusCode": 200,
+            "HTTPHeaders": {
+                "content-type": "application/x-amz-json-1.1",
+                "date": "Mon, 04 Nov 2019 18:26:15 GMT",
+                "x-amzn-requestid": "c3d8198d-be78-40e6-9d97-2c4903e6a3c1",
+                "content-length": "90",
+                "connection": "keep-alive"
+            },
+            "RetryAttempts": 0
+        }
+    },
+    "importJobList": [
+        {
+            "datasetImportJobArn": "arn:aws:personalize:us-east-1:868998664771:dataset-import-job/Items_job_40",
+            "ResponseMetadata": {
+                "RequestId": "736b543b-b762-4934-8796-09ed5534a63a",
+                "HTTPStatusCode": 200,
+                "HTTPHeaders": {
+                    "content-type": "application/x-amz-json-1.1",
+                    "date": "Mon, 04 Nov 2019 18:26:22 GMT",
+                    "x-amzn-requestid": "736b543b-b762-4934-8796-09ed5534a63a",
+                    "content-length": "100",
+                    "connection": "keep-alive"
+                },
+                "RetryAttempts": 0
+            }
+        },
+        {
+            "datasetImportJobArn": "arn:aws:personalize:us-east-1:868998664771:dataset-import-job/Users_job_95",
+            "ResponseMetadata": {
+                "RequestId": "7771e91d-9ba0-4e71-83ec-bcbafe6d1d9d",
+                "HTTPStatusCode": 200,
+                "HTTPHeaders": {
+                    "content-type": "application/x-amz-json-1.1",
+                    "date": "Mon, 04 Nov 2019 18:26:23 GMT",
+                    "x-amzn-requestid": "7771e91d-9ba0-4e71-83ec-bcbafe6d1d9d",
+                    "content-length": "100",
+                    "connection": "keep-alive"
+                },
+                "RetryAttempts": 0
+            }
+        },
+        {
+            "datasetImportJobArn": "arn:aws:personalize:us-east-1:868998664771:dataset-import-job/Interactions_job_33",
+            "ResponseMetadata": {
+                "RequestId": "3c25b899-acb1-49df-9617-ee19b9165d27",
+                "HTTPStatusCode": 200,
+                "HTTPHeaders": {
+                    "content-type": "application/x-amz-json-1.1",
+                    "date": "Mon, 04 Nov 2019 18:26:24 GMT",
+                    "x-amzn-requestid": "3c25b899-acb1-49df-9617-ee19b9165d27",
+                    "content-length": "107",
+                    "connection": "keep-alive"
+                },
+                "RetryAttempts": 0
+            }
+        }
+    ]
+}
