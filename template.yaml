@@ -26,11 +26,11 @@ Resources:
       DisplayName: SNS Topic Name
       TopicName: !Ref SNSTopicName
   NotificationEmail:
-    Type:AWS::SNS::Subscription
+    Type: AWS::SNS::Subscription
     Properties:
       Endpoint: !Ref SubEmail
       Protocol: Email
-      TopicArn: !Ref NotifcationTopic
+      TopicArn: !Ref NotificationTopic
   ImportData:
     Type: AWS::Serverless::Function
     Properties:
