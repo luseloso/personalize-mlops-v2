@@ -20,6 +20,10 @@ The below diagram describes the architecture of the solution:
 
 ![Architecture Diagram](images/architecture.png)
 
+The below diagram showcases the StepFunction workflow definition:
+
+![stepfunction definition](images/stepfunctions.png)
+
 ## Prerequisites
 
 ### Installing AWS SAM
@@ -151,7 +155,7 @@ https://docs.aws.amazon.com/personalize/latest/dg/how-it-works-dataset-schema.ht
 
 ## Testing Example
 
-In order to test the deployment please run the following command **inside the repository folder**:
+In order to test the deployment please run the following command **inside the ml_ops folder**:
 
 
 ```bash
