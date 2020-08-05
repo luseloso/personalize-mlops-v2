@@ -1,49 +1,8 @@
-<br /><br />
-<p align="center">
-  <img width="240" src="assets/icon.png" />
-</p><br />
 
-# personalize-pipeline
-> Step Functions automation workflow for Amazon Personalize.
+# Getting Started
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](contributing.md)
-[![CodeBuild](https://s3-us-west-2.amazonaws.com/codefactory-us-west-2-prod-default-build-badges/passing.svg)](https://s3-us-west-2.amazonaws.com/codefactory-us-west-2-prod-default-build-badges/passing.svg)
+ML Ops is gaining a lot of popularity. This example showcases a key piece you can use to construct your automation pipeline. As we can see in the following architecture diagram, you will be deploying an AWS Step Funciton Workflow containing AWS Lambda functions that call Amazon S3, Amazon Personalize, and Amazon SNS APIs.
 
-Current version: **1.0.0**
-
-Lead Maintainer: [Pedro Pimentel](mailto:pppimen@amazon.com)
-
-## 📋 Table of content
-
- - [Installation](#install)
- - [Metrics](#metrics)
- - [Description](#description)
- - [Deployment & Usage](#deployment-and-usage)
- - [Configuration & Settings](#configuration-&-settings)
- - [See also](#see-also)
-
-## 🚀 Install
-
-In order to add this block, head to your project directory in your terminal and add it using NPM.
-
-```bash
-npm install @aws-blocks/personalize-pipeline
-```
-
-The **personalize-pipeline** project will be available in the `node_modules/@aws-blocks` directory.
-
-## 📊 Metrics
-
-The below metrics displays approximate values associated with deploying and using this block.
-
-Metric | Value
------- | ------
-**Type** | Architecture
-**Installation Time** | 2 to 3 minutes
-**Requirements** | [aws-cli](https://aws.amazon.com/cli/), [aws-sam](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-**Audience** | Developers, Solutions Architects
-
-## 🔰 Description
 
 This package contains the source code of a Step Functions pipeline that is able to perform 
 multiple actions within **Amazon Personalize**, including the following:
@@ -52,26 +11,41 @@ multiple actions within **Amazon Personalize**, including the following:
 - Datasets creation and import
 - Solution creation
 - Solution version creation
+- Campaign creation
 
-Once the steps are completed, the solution notifies the users of its completion through the
+Once the steps are completed, the step functions notifies the users of its completion through the
 use of an SNS topic.
 
 The below diagram describes the architecture of the solution:
 
-![architecture](assets/architecture.png)
+![Architecture Diagram](images/architecture.png)
 
+## Prerequisites
 
-## 🎮 Deployment and Usage
+### Installing AWS SAM
 
-With the SAM CLI installed, run the following command **inside the repository folder** to deploy the pipeline:
+The AWS Serverless Application Model (SAM) is an open-source framework for building serverless applications. It provides shorthand syntax to express functions, APIs, databases, and event source mappings. With just a few lines per resource, you can define the application you want and model it using YAML. During deployment, SAM transforms and expands the SAM syntax into AWS CloudFormation syntax, enabling you to build serverless applications faster.
 
-```bash
-sam build --template cloudformation.yaml && sam deploy --guided
-```
+**Install** the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html). 
+This will install the necessary tools to build, deploy, and locally test your project. In this particular example we will be using AWS SAM to build and deploy only. For additional information please visit our [documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html).
+
+## Build and Deploy
+
+In order to deploy the project you will need to run the following commands:
+
+1. Clone the Amazon Personalize Samples repo 
+    - `git clone https://github.com/aws-samples/amazon-personalize-samples.git`
+2. Navigate into the *next_steps/operations/ml_ops/personalize-step-functions* directory
+    - `cd next_steps/operations/ml_ops/personalize-step-functions` 
+3. Build your SAM project. [Installation instructions](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+    - `sam build` 
+4. Deploy your project. SAM offers a guided deployment option, note that you will need to provide your email address as a parameter to receive a notification.
+    - `sam deploy --guided`
+5. Navigate to your email inbox and confirm your subscription to the SNS topic
 
 The pipeline will query your for an email and a default name for the parameter file.
 
-Once deployed, the solution will create the **InputBucket**. Use it to upload your datasets
+Once deployed, the solution will create the **InputBucket** which you can find in the CloudFomation stack output. Use it to upload your datasets
 using the following structure:
 
 ```bash
@@ -83,9 +57,9 @@ Interactions/       # Interaction dataset(s) folder
 After your datasets are submitted, upload the parameters file in **the root directory**. This step
  will start the step functions workflow.
 
-## 🛠 Configuration
+## Configuration
 
-To use this tool you will need to propperly setup a **parameter file**. The parameter file 
+To use this deployment you will need to propperly setup a **parameter file**. The parameter file 
 contains all the necessary information to create the resources on Amazon Personalize. It fetches
 the parameters using the [boto3 personalize client](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/personalize.html).
 
@@ -165,12 +139,23 @@ The file should include the following sections, **all mandatory**:
 </p>
 </details>
 
-## 📟 Example
+### Parameters file structure
+
+To view how to create your parameter file, visit [this example](./example/params.json).
+Each section corresponds to an API call. 
+
+### How to define a schema
+
+https://docs.aws.amazon.com/personalize/latest/dg/how-it-works-dataset-schema.html
+
+
+## Testing Example
 
 In order to test the deployment please run the following command **inside the repository folder**:
 
+
 ```bash
-aws s3 sync ./example/data s3://{YOURBUCKETNAME}
+aws s3 sync ./example/data s3://{YOURBUCKETNAME} 
 
 aws s3 cp ./example/params.json s3://{YOURBUCKETNAME}
 ```
@@ -182,17 +167,8 @@ machine.
 > You will need to specify the correct S3 bucket name created before. The state machine 
 starts when the parameter file is submitted to the S3 bucket.
 
-## 👀 See Also
+## Next Steps
 
-### How to define a schema
+Congratulations! You have successfully trained a Personalize model and created a Campaign. You can get recommendations leveraging your campaign ARN or by visiting the [Amazon Personalize Console](https://console.aws.amazon.com/personalize/home?region=us-east-1#datasetGroups) Dataset Group Campaign section.
 
-https://docs.aws.amazon.com/personalize/latest/dg/how-it-works-dataset-schema.html
-
-
-### Parameters file structure
-
-To view how to create your parameter file, visit [this example](./example/params.json).
-Each section corresponds to an API call. 
-
-> Consult all possible parameters for each section
-visiting the [Personalize Boto3 Doc](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/personalize.html#Personalize.Client.create_dataset).
+For additional information on Getting Recommendations please visit our [documentation](https://docs.aws.amazon.com/personalize/latest/dg/getting-recommendations.html) or one of our walkthrough [notebook examples](https://github.com/aws-samples/amazon-personalize-samples/blob/master/personalize_sample_notebook.ipynb).

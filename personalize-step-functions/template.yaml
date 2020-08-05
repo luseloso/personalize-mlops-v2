@@ -66,7 +66,7 @@ Resources:
   S3Lambda:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/lambdas/s3lambda/
+      CodeUri: lambdas/s3lambda/
       Handler: parse.lambda_handler
       Runtime: python3.7
       Role: !GetAtt TriggerRole.Arn
@@ -136,7 +136,7 @@ Resources:
   Notify:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/lambdas/notify/
+      CodeUri: lambdas/notify/
       Handler: notify.lambda_handler
       Runtime: python3.7
       Environment:
@@ -156,7 +156,7 @@ Resources:
   SharedLayer:
       Type: AWS::Serverless::LayerVersion
       Properties:
-        ContentUri: src/shared/
+        ContentUri: shared/
         CompatibleRuntimes:
           - python3.7
         RetentionPolicy: Delete
@@ -187,7 +187,7 @@ Resources:
   CreateDatasetGroup:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/lambdas/create-datasetgroup/
+      CodeUri: lambdas/create-datasetgroup/
       Handler: datasetgroup.lambda_handler
       Runtime: python3.7
       Layers:
@@ -203,7 +203,7 @@ Resources:
   CreateDataset:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/lambdas/create-dataset/
+      CodeUri: lambdas/create-dataset/
       Handler: dataset.lambda_handler
       Runtime: python3.7
       Layers:
@@ -221,7 +221,7 @@ Resources:
   ImportData:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/lambdas/import-data/
+      CodeUri: lambdas/import-data/
       Handler: datasetimport.lambda_handler
       Runtime: python3.7
       Layers:
@@ -244,7 +244,7 @@ Resources:
   CreateSolution:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/lambdas/create-solution/
+      CodeUri: lambdas/create-solution/
       Handler: solution.lambda_handler
       Runtime: python3.7
       Layers:
@@ -261,7 +261,7 @@ Resources:
   WaitSolution:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/lambdas/wait-solution-version/
+      CodeUri: lambdas/wait-solution-version/
       Handler: wait-version.lambda_handler
       Runtime: python3.7
       Layers:
@@ -276,7 +276,7 @@ Resources:
   CreateCampaign:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/lambdas/create-campaign/
+      CodeUri: lambdas/create-campaign/
       Handler: campaign.lambda_handler
       Runtime: python3.7
       Layers:
