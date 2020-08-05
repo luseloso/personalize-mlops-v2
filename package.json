@@ -1,0 +1,30 @@
+{
+    "author": {
+      "name": "Pedro Pimentel",
+      "email": "pppimen@amazon.com"
+    },
+    "block": {
+      "type": "architecture",
+      "audience": [
+        "Solutions Architects",
+        "Developers"
+      ],
+      "deploymentTime": 3
+    },
+    "bundleDependencies": false,
+    "deprecated": false,
+    "description": "Step Functions automation workflow for Amazon Personalize",
+    "homepage": "https://aws-blocks.io/package.html?name=@aws-blocks/personalize-pipeline",
+    "keywords": [
+      "machine-learning",
+      "cloudformation",
+      "pipeline",
+      "personalize"
+    ],
+    "license": "MIT",
+    "name": "@aws-blocks/personalize-pipeline",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "version": "1.0.0"
+  }
